@@ -1,5 +1,5 @@
-import MurmurHash_Swift
 import Foundation
+import MurmurHash_Swift
 
 final class MurmurPRNG_x64_128 {
     let hasher: MurmurHash3.x64_128
@@ -8,11 +8,11 @@ final class MurmurPRNG_x64_128 {
     public init(seed: UInt32) {
         hasher = MurmurHash3.x64_128(seed)
     }
-    
+
     public func lookup() -> [UInt64] {
         hasher.reset()
-        self.position += 1
-        let data = withUnsafeBytes(of: self.position) { ptr in
+        position += 1
+        let data = withUnsafeBytes(of: position) { ptr in
             Data(ptr)
         }
         hasher.update(data)
@@ -27,11 +27,11 @@ final class MurmurPRNG_x86_128 {
     public init(seed: UInt32) {
         hasher = MurmurHash3.x86_128(seed)
     }
-    
+
     public func lookup() -> [UInt32] {
         hasher.reset()
-        self.position += 1
-        let data = withUnsafeBytes(of: self.position) { ptr in
+        position += 1
+        let data = withUnsafeBytes(of: position) { ptr in
             Data(ptr)
         }
         hasher.update(data)
@@ -46,11 +46,11 @@ final class MurmurPRNG_x86_32 {
     public init(seed: UInt32) {
         hasher = MurmurHash3.x86_32(seed)
     }
-    
+
     public func lookup() -> UInt32 {
         hasher.reset()
-        self.position += 1
-        let data = withUnsafeBytes(of: self.position) { ptr in
+        position += 1
+        let data = withUnsafeBytes(of: position) { ptr in
             Data(ptr)
         }
         hasher.update(data)
@@ -65,10 +65,10 @@ final class HasherPRNG {
     let seed: UInt32
 
     public init(seed: UInt32) {
-        self.hasher = Hasher()
+        hasher = Hasher()
         self.seed = seed
     }
-    
+
     public func lookup() -> Int {
         hasher.combine(seed)
         hasher.combine(position)
